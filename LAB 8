@@ -1,0 +1,65 @@
+#include <conio.h>
+#include <stdio.h> 
+#define NMAX 7 
+#define RMAX 21 
+#include <locale.h> 
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+	int g1[NMAX][NMAX] = { 0 },
+		n, g, no,
+		k, k1;
+	int j, i;
+	printf("Введите количество вершин:");
+	scanf_s("%d", &n);
+	printf("Введите вершины:\n");
+	while (i != 999)
+	{
+		scanf_s("%d", &i);
+		if (i == 999)
+			break;
+		scanf_s("%d", &j);
+		g1[i][j] = 1;
+	}
+	printf("\nМатрица смежности:\n");
+	printf(" |");
+	for (k = 0; k < n; k++)
+	{
+		printf("%3d", k);
+	}
+	printf("\n");
+	for (k = 0; k < n + 1; k++)
+		printf("---");
+	printf("\n");
+	for (k = 0; k < n; k++)
+	{
+		printf("%d|", k);
+		for (k1 = 0; k1 < n; k1++)
+		{
+			printf("%3d", g1[k][k1]);
+		}
+		printf("\n");
+	}
+
+	no = 0;
+	for (k = 0; k < n; k++)
+	{
+		g = 0;
+		for (k1 = 0; k1 < n; k1++)
+		{
+			if (g1[k][k1] == 1 && k != k1)
+			{
+				g = 1;
+				break;
+			}
+		}
+		if (g == 0)
+		{
+			no++;
+			printf("\n№%d вершина не имеющая предшественников:%d", no, k);
+		}
+	}
+	if (no == 0)
+		printf("\nНет вершин не имеющих предшественников");
+	_getch();
+}
