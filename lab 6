@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+#include <iostream>
+#include <list>
+#define MAXDL 8
+
+struct EL_SP
+{
+	char id[MAXDL];
+	struct EL_SP *sled;
+};
+
+void Vkl(struct EL_SP **p, char t_id[])
+{
+	struct EL_SP *pt,
+		*k, *j;
+	pt = (struct EL_SP *) malloc(sizeof(struct EL_SP));
+	strcpy_s(pt->id, t_id);
+	if (*p == NULL || strcmp(pt->id, (*p)->id) < 0)
+	{
+		pt->sled = *p; *p = pt;
+	}
+	else
+	{
+		k = *p;
+		while (k != NULL && strcmp(pt->id, k->id) >= 0)
+		{
+			j = k; k = k->sled;
+
+			j->sled = pt; pt->sled = k;
+		}
+	}
+}
+
+void SPDel(struct EL_SP *p, unsigned k)
+{
+	struct EL_SP *i = NULL;
+	unsigned l = 0;
+	//k--;
+	for (k; l < k; l++)
+	{
+		i = p->sled;
+		p->sled = i->sled;
+	}
+	   delete (i);
+
+}
+
+void PechSP(struct EL_SP *p)
+{
+	struct EL_SP *i;
+	printf("\nИдентификаторы выстроены в лексикографическом порядке:\n");
+	for (i = p; i != NULL; i = i->sled)
+		puts(i->id);
+}
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	struct EL_SP *p = NULL;
+	unsigned n;
+	unsigned i;
+	char t_id[MAXDL];
+	unsigned k;
+
+	printf("\nВведите кол-во идентификаторов\n n=");
+	scanf_s("%u", &n);
+	getchar();
+	p = NULL;
+	printf("Введите идентификаторы");
+	printf(" (после каждого нажимайте клавишу <Enter>)\n");
+	for (i = 1; i <= n; i++)
+	{
+		gets_s(t_id);
+		Vkl(&p, t_id);
+	}
+	printf("Введите количество первых удаляемых элементов\n k=");
+	scanf_s("%u", &k);
+	PechSP(p);
+	SPDel(p, k);
+	printf("\nРезультат после удаления:");
+	PechSP(p);
+	printf("\n\nДля завершения нажмите любую клавишу...\n");
+	_getch();
+}
