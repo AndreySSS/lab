@@ -1,3 +1,4 @@
+//4б
 #include <conio.h>
 #include <stdio.h> 
 #define NMAX 7 
